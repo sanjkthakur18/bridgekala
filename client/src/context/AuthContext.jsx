@@ -10,8 +10,6 @@ export const UserProvider = ({ children }) => {
     const [signupError, setSignupError] = useState(null)
     const [authenticated, setAuthenticated] = useState(!localStorage.getItem('token'))
 
-    const getToken = () => localStorage.getItem('token')
-
     useEffect(() => {
         const token = localStorage.getItem('token')
         const role = localStorage.getItem('role')
@@ -68,20 +66,6 @@ export const UserProvider = ({ children }) => {
         }
     }
 
-    const logout = async () => {
-        const token = getToken()
-        try {
-            await axios.patch('http://127.0.0.1:3500/api/logout', {
-                headers: { Authorization: `Bearer ${token}` }
-            })
-            localStorage.removeItem('token')
-            localStorage.removeItem('role')
-            setAuthenticated(false)
-        } catch (error) {
-            console.log('Logout failed:', error)
-        }
-    }
-
     const adminSignin = async (formData) => {
         setIsLoading(true)
         setLoginError(null)
@@ -129,22 +113,8 @@ export const UserProvider = ({ children }) => {
         }
     }
 
-    const adminLogout = async () => {
-        const token = getToken()
-        try {
-            await axios.patch('http://127.0.0.1:3500/api/admin/logout', {
-                headers: { Authorization: `Bearer ${token}` }
-            })
-            localStorage.removeItem('token')
-            localStorage.removeItem('role')
-            setAuthenticated(false)
-        } catch (error) {
-            console.log('Logout failed:', error)
-        }
-    }
-
     return (
-        <UserContext.Provider value={{ login, signup, logout, adminSignin, adminLogout, adminSignup, authenticated, isLoading, loginError, signupError, message }}>
+        <UserContext.Provider value={{ login, signup, adminSignin, adminSignup, authenticated, isLoading, loginError, signupError, message }}>
             {children}
         </UserContext.Provider>
     )

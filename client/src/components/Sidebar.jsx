@@ -5,10 +5,8 @@ import { BsGraphUp } from "react-icons/bs"
 import { VscBellDot } from "react-icons/vsc"
 import { RiLoader2Line } from "react-icons/ri"
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md"
-import { useUserContext } from '../context/AuthContext'
 
 const Sidebar = ({ handleForm, setActivePage }) => {
-    const { adminLogout } = useUserContext()
 
     const navigate = useNavigate()
     const name = localStorage.getItem('name')
@@ -16,7 +14,6 @@ const Sidebar = ({ handleForm, setActivePage }) => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            await adminLogout()
             localStorage.clear()
             navigate('/')
         } catch (err) {

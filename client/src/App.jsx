@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import Home from './pages/Home'
@@ -12,22 +13,21 @@ import 'react-toastify/dist/ReactToastify.css'
 import './App.css'
 
 const App = () => {
-  const token = localStorage.getItem('token')
   const { authenticated } = useUserContext()
 
-  const adminAuthenticated = authenticated && localStorage.getItem('role') === 'admin'
-  const executiveAuthenticated = authenticated && localStorage.getItem('role') === 'executive'
+  const adminAuthenticated = authenticated && role === 'admin'
+  const executiveAuthenticated = authenticated && role === 'executive'
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/admin-dashboard' element={token && adminAuthenticated ? <AdminDashboard /> : <Navigate to='/admin-signin' />} />
-        <Route path='/executive-dashboard' element={token && executiveAuthenticated ? <ExecutiveDashboard /> : <Navigate to='/executive-signin' />} />
-        <Route path='/executive-signin' element={token && executiveAuthenticated ? <Navigate to='/executive-dashboard' /> : <ExecutiveSignin />} />
-        <Route path='/executive-signup' element={token && executiveAuthenticated ? <Navigate to='/executive-dashboard' /> : <ExecutiveSignup />} />
-        <Route path='/admin-signin' element={token && adminAuthenticated ? <Navigate to='/admin-dashboard' /> : <AdminSignin />} />
-        <Route path='/admin-signup' element={token && adminAuthenticated ? <Navigate to='/admin-dashboard' /> : <AdminSignup />} />
+        <Route path='/admin-dashboard' element={adminAuthenticated ? <AdminDashboard /> : <Navigate to='/admin-signin' />} />
+        <Route path='/executive-dashboard' element={executiveAuthenticated ? <ExecutiveDashboard /> : <Navigate to='/executive-signin' />} />
+        <Route path='/executive-signin' element={!executiveAuthenticated ? <ExecutiveSignin /> : <Navigate to='/executive-dashboard' />} />
+        <Route path='/executive-signup' element={!executiveAuthenticated ? <ExecutiveSignup /> : <Navigate to='/executive-dashboard' />} />
+        <Route path='/admin-signin' element={!adminAuthenticated ? <AdminSignin /> : <Navigate to='/admin-dashboard' />} />
+        <Route path='/admin-signup' element={!adminAuthenticated ? <AdminSignup /> : <Navigate to='/admin-dashboard' />} />
       </Routes>
       <ToastContainer />
     </BrowserRouter>
