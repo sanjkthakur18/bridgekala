@@ -14,6 +14,7 @@ import './App.css'
 
 const App = () => {
   const { authenticated } = useUserContext()
+  const role = localStorage.getItem('role')
 
   const adminAuthenticated = authenticated && role === 'admin'
   const executiveAuthenticated = authenticated && role === 'executive'
