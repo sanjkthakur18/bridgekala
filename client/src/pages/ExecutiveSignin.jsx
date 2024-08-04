@@ -7,8 +7,16 @@ import { useUserContext } from '../context/AuthContext'
 const ExecutiveSignin = () => {
     const [formData, setFormData] = useState({ email: '', password: '' })
     const [showPassword, setShowPassword] = useState(false)
-    const { login, isLoading, loginError } = useUserContext()
+    const { login, isLoading, loginError, authenticated } = useUserContext()
     const navigate = useNavigate()
+
+    const role = localStorage.getItem('role')
+
+    useEffect(() => {
+        if (authenticated && role === 'executive') {
+          navigate('/executive-dashboard')
+        }
+      }, [authenticated, role, navigate])
 
     const handleChange = (evt) => {
         setFormData({ ...formData, [evt.target.name]: evt.target.value })

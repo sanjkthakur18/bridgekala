@@ -14,11 +14,11 @@ export const UserProvider = ({ children }) => {
         const token = localStorage.getItem('token')
         const role = localStorage.getItem('role')
         if (token && role) {
-          setAuthenticated(true)
+            setAuthenticated(true)
         } else {
-          setAuthenticated(false)
+            setAuthenticated(false)
         }
-      }, [])
+    }, [])
 
     const login = async (formData) => {
         setIsLoading(true)
@@ -44,6 +44,12 @@ export const UserProvider = ({ children }) => {
             setIsLoading(false)
         }
     }
+
+    const logout = () => {
+        localStorage.clear()
+        setAuthenticated(false)
+    }
+
 
     const signup = async (formData) => {
         setIsLoading(true)
@@ -114,7 +120,7 @@ export const UserProvider = ({ children }) => {
     }
 
     return (
-        <UserContext.Provider value={{ login, signup, adminSignin, adminSignup, authenticated, isLoading, loginError, signupError, message }}>
+        <UserContext.Provider value={{ login, signup, adminSignin, adminSignup, logout, authenticated, isLoading, loginError, signupError, message }}>
             {children}
         </UserContext.Provider>
     )

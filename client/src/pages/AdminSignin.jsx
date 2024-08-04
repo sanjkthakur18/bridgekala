@@ -7,8 +7,16 @@ import { useUserContext } from '../context/AuthContext'
 const AdminSignin = () => {
     const [formData, setFormData] = useState({ email: '', password: '' })
     const [showPassword, setShowPassword] = useState(false)
-    const { adminSignin, isLoading, loginError } = useUserContext()
+    const { adminSignin, isLoading, loginError, authenticated } = useUserContext()
     const navigate = useNavigate()
+
+    const role = localStorage.getItem('role')
+
+    useEffect(() => {
+        if (authenticated && role === 'admin') {
+          navigate('/admin-dashboard')
+        }
+      }, [authenticated, role, navigate])
 
     const handleChange = (evt) => {
         setFormData({ ...formData, [evt.target.name]: evt.target.value })

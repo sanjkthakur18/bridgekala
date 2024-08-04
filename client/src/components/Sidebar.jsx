@@ -1,19 +1,21 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { IoMdAddCircle } from "react-icons/io"
 import { BsGraphUp } from "react-icons/bs"
 import { VscBellDot } from "react-icons/vsc"
 import { RiLoader2Line } from "react-icons/ri"
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md"
+import { useUserContext } from '../context/AuthContext'
 
 const Sidebar = ({ handleForm, setActivePage }) => {
-
+    const { logout } = useUserContext()
     const navigate = useNavigate()
     const name = localStorage.getItem('name')
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
+            await logout()
             localStorage.clear()
             navigate('/')
         } catch (err) {
