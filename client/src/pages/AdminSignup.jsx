@@ -8,7 +8,7 @@ import { useUserContext } from '../context/AuthContext'
 const AdminSignup = () => {
     const [formData, setFormData] = useState({ name: '', email: '', password: '' })
     const [showPassword, setShowPassword] = useState(false)
-    const { AdminSignup, isLoading, signupError, message, } = useUserContext()
+    const { adminSignup, isLoading, signupError, message, } = useUserContext()
 
     const handleChange = (evt) => {
         setFormData({ ...formData, [evt.target.name]: evt.target.value })
@@ -17,7 +17,7 @@ const AdminSignup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            await AdminSignup(formData)
+            await adminSignup(formData)
             setFormData({ name: '', email: '', password: '' })
             console.log('Admin registered successfully')
         } catch (err) {
